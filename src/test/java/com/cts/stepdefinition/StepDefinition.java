@@ -718,7 +718,7 @@ public class StepDefinition {
 		// quit the driver
 		driver.quit();
 	}
-	// Scenario: checking categories for Monitors
+	// Scenario: checking categories for the Monitors
 
 	@When("I click on monitors it will show only monitors")
 	public void i_click_on_monitors_it_will_show_only_monitors() {
