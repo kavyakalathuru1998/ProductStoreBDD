@@ -650,9 +650,12 @@ public class StepDefinition {
 	@When("I will not enter the username {string} and i will not enter the password {string}")
 	public void i_will_not_enter_the_username_and_i_will_not_enter_the_password(String userName, String password)
 			throws InterruptedException {
-		// click on signup
+		// click on the signup in the home page
 		signUpPage signuppage = new signUpPage(driver);
-		signuppage.againClickOnSignUp();
+		signuppage.clickOnSignUp();
+		// click on signup
+		signUpPage signuppage1 = new signUpPage(driver);
+		signuppage1.againClickOnSignUp();
 		Thread.sleep(1000);
 		// entering username
 		signuppage.enterUserName(userName);
@@ -726,7 +729,7 @@ public class StepDefinition {
 
 	@Then("I search for monitors visibility for assertion")
 	public void i_search_for_monitors_visibility_for_assertion() {
-		// getting the text and storing it ina string variable
+		// getting the text and storing it in a string variable
 		String actualText = driver.findElement(By.xpath("//img[@src='imgs/asusm.jpg']/ancestor::a")).getText();
 		// comparing the expected with the actual
 		Assert.assertEquals(actualText, "");
