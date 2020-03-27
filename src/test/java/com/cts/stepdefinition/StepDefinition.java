@@ -1,8 +1,12 @@
 package com.cts.stepdefinition;
 
-import java.util.concurrent.TimeUnit;
+import java.io.File;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -20,14 +24,28 @@ import com.cts.productstorepages.ProductPage;
 import com.cts.productstorepages.UserDetailPage;
 import com.cts.productstorepages.signUpPage;
 
+import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
 import io.cucumber.java.lu.a;
 
 public class StepDefinition {
 
 	WebDriver driver;
+	@After
+	public void end()
+	{
+		//Take screen shot
+		 Date date= new Date();
+		 String dateStr = date.toString().replace(":", "-");
+		 TakesScreenshot ts=(TakesScreenshot)driver;
+		File file = ts.getScreenshotAs(OutputType.FILE);
+		file.renameTo(new File("src/test/resources/Screenshot/image"+dateStr+".png"));
+		// quit the driver
+		driver.quit();
+	}
 
 	@Given("I have browser with productstore page.")
 	public void i_have_browser_with_productstore_page() {
@@ -73,8 +91,7 @@ public class StepDefinition {
 		String actualText = driver.findElement(By.linkText("Log out")).getText();
 		// comparing the expected with actual
 		Assert.assertEquals(actualText, expectedText);
-		// quit the driver
-		driver.quit();
+
 
 	}
 	// Scenario Outline: Valid Credential Test
@@ -109,8 +126,7 @@ public class StepDefinition {
 		String actualAlertMessage = driver.switchTo().alert().getText();
 		// comparing the expected with actual
 		Assert.assertEquals(actualAlertMessage, expectedAlertMessage);
-		// quit the driver
-		driver.quit();
+		
 	}
 	// Scenario: Scenario: Empty userName
 
@@ -142,8 +158,7 @@ public class StepDefinition {
 		String actualUserAlretMessage = driver.switchTo().alert().getText();
 		// comparing the expected with actual
 		Assert.assertEquals(actualUserAlretMessage, expectedUserAlertMessage);
-		// quit the driver
-		driver.quit();
+		
 	}
 	// Scenario: Empty password
 
@@ -173,8 +188,7 @@ public class StepDefinition {
 		String actualPasswordAlretMessage = driver.switchTo().alert().getText();
 		// comparing expected with actual
 		Assert.assertEquals(actualPasswordAlretMessage, expectedPasswordAlertMessage);
-		// quit the driver
-		driver.quit();
+		
 	}
 	// Scenario: valid filling contact
 
@@ -209,8 +223,7 @@ public class StepDefinition {
 		String actualContactFillingAlertMessage = driver.switchTo().alert().getText();
 		// comparing the expected with actual
 		Assert.assertEquals(actualContactFillingAlertMessage, expectedContactFillingAlertMessage);
-		// quit the driver
-		driver.quit();
+		
 	}
 	// Scenario: Contact Blank fill
 
@@ -241,8 +254,6 @@ public class StepDefinition {
 		String actualWithoutContactFillingAlertMessage = driver.switchTo().alert().getText();
 		// comparing the expected with actual
 		Assert.assertEquals(actualWithoutContactFillingAlertMessage, expectedWithoutContactFillingAlertMessage);
-		// quit the driver
-		driver.quit();
 	}
 	// Scenario: selecting a product in the home page
 
@@ -276,8 +287,6 @@ public class StepDefinition {
 		// click on add to cart
 		AddToCartPage addtocartpage = new AddToCartPage(driver);
 		addtocartpage.clickOnAlert();
-		// quit the driver
-		driver.quit();
 	}
 	// Scenario: Deleting a product from the cart
 
@@ -320,8 +329,7 @@ public class StepDefinition {
 		} else {
 			System.out.println("passed");
 		}
-		//driver quit
-		driver.quit();
+		
 	}
 	// Scenario: Placing order
 
@@ -360,8 +368,7 @@ public class StepDefinition {
 		Thread.sleep(1000);
 		// comparing the expected with the actual
 		Assert.assertEquals(actualText, "");
-		// quit the driver
-		driver.quit();
+		
 	}
 
 	// Scenario: Filling all details for purchase
@@ -417,8 +424,6 @@ public class StepDefinition {
 		String actualText = driver.findElement(By.xpath("//h2[text()='Thank you for your purchase!']")).getText();
 		// comparing the expected with actual
 		Assert.assertEquals(actualText, expectedText);
-		// quit the driver
-		driver.quit();
 	}
 
 	// Scenario: Blank name or Credit card
@@ -472,8 +477,7 @@ public class StepDefinition {
 		String actualMissingdetailsText = driver.switchTo().alert().getText();
 		// comparing the expected with actual
 		Assert.assertEquals(actualMissingdetailsText, expectedMissingdetailsText);
-		// quit the driver
-		driver.quit();
+	
 	}
 
 	// Scenario: Filling all the details and click on close
@@ -530,8 +534,6 @@ public class StepDefinition {
 		String actualTextInHomeIcon = driver.findElement(By.partialLinkText("PRODUCT STORE")).getText();
 		// comparing expected with actual
 		Assert.assertEquals(actualTextInHomeIcon, "PRODUCT STORE");
-		// quit the driver
-		driver.quit();
 	}
 
 	// Scenario: Filling all the userdetails and click on close button
@@ -585,8 +587,6 @@ public class StepDefinition {
 		String actualTextInHomeIcon1 = driver.findElement(By.partialLinkText("PRODUCT STORE")).getText();
 		// comparing the expected with actual
 		Assert.assertEquals(actualTextInHomeIcon1, expectedTextInHomeIcon);
-		// quit the driver
-		driver.quit();
 	}
 
 	// Scenario: Valid signUp
@@ -615,8 +615,7 @@ public class StepDefinition {
 		// comparing the expected with actual
 		Assert.assertEquals(signUpSuccessfullyaActualText, "Sign up successful.");
 		driver.switchTo().alert().accept();
-		//quit the browser
-		driver.quit();
+	
 	}
 	// Scenario: Already exsisted user for SignUp
 
@@ -646,8 +645,7 @@ public class StepDefinition {
 		// comparing the expected with the actual
 		Assert.assertEquals(signUpSuccessfullyaActualText, signUpSuccessfullyExpectedText);
 		driver.switchTo().alert().accept();
-		// quit the driver
-		driver.quit();
+		
 	}
 //Already exsisted user for signup
 	@When("I will not enter the username {string} and i will not enter the password {string}")
@@ -676,8 +674,7 @@ public class StepDefinition {
 		//comparing expected with actual
 		Assert.assertEquals(signUpSuccessfullyaActualText, signUpSuccessfullyExpectedText);
 		driver.switchTo().alert().accept();
-		//quit the driver
-		driver.quit();
+	
 	}
 
 	// Scenario: checking categories for Phones
@@ -696,8 +693,7 @@ public class StepDefinition {
 		String actualText = driver.findElement(By.xpath("//img[@src='imgs/galaxy_s6.jpg']/ancestor::a")).getText();
 		// comparing expected with actual
 		Assert.assertEquals(actualText, "");
-		// quit the driver
-		driver.quit();
+		
 
 	}
 
@@ -715,8 +711,7 @@ public class StepDefinition {
 		String actualText = driver.findElement(By.xpath("//img[@src='imgs/sony_vaio_5.jpg']/ancestor::a")).getText();
 		// comparing the expected with actual
 		Assert.assertEquals(actualText, "");
-		// quit the driver
-		driver.quit();
+		
 	}
 	// Scenario: checking categories for the Monitors
 
@@ -733,8 +728,7 @@ public class StepDefinition {
 		String actualText = driver.findElement(By.xpath("//img[@src='imgs/asusm.jpg']/ancestor::a")).getText();
 		// comparing the expected with the actual
 		Assert.assertEquals(actualText, "");
-		// quit the driver
-		driver.quit();
+		
 	}
 
 }
