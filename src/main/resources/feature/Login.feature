@@ -6,6 +6,10 @@ Feature: Login
 Background: Below are the common steps for the scenarios 
 	Given I have browser with productstore page. 
 	
+Scenario: Login Valid Credential using excel.
+	When I enter login details from Excel "src/test/resources/excel/Productstore.xlsx" with SheetName "LoginValidCredential". 
+	Then I should access to the portal with title as 'Log out'.
+	
 Scenario: Valid Credential Test 
 
 	When I enter username as 'kavyakalathuru1998@gmail.com' and I enter password as 'kavyakalathuru' 

@@ -1,7 +1,7 @@
 package com.cts.stepdefinition;
 
 import java.io.File;
-
+import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
@@ -23,6 +23,7 @@ import com.cts.productstorepages.PlaceOrderPage;
 import com.cts.productstorepages.ProductPage;
 import com.cts.productstorepages.UserDetailPage;
 import com.cts.productstorepages.signUpPage;
+import com.cts.utils.ReadExcel;
 
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
@@ -59,6 +60,41 @@ public class StepDefinition {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		// getting the link
 		driver.get("https://www.demoblaze.com");
+	}
+	
+	//using excel sheet
+	
+	@When("I enter login details from Excel {string} with SheetName {string}")
+	public void i_enter_login_details_from_Excel_with_SheetName(String fileDetails, String sheetName)
+			throws IOException, InterruptedException {
+		// reading from excel
+		String str[][] = ReadExcel.getSheetIntoStringArray(fileDetails, sheetName);
+		// click on login in home page
+		LoginPage loginpage = new LoginPage(driver);
+		loginpage.clickOnLogin();
+		Thread.sleep(2000);
+		// providing some explicit wait of 30 sec
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("loginusername")));
+		// giving username from excel
+		loginpage.enterUserName(str[0][0]);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("loginpassword")));
+		// giving password from excel
+		loginpage.enterPassword(str[0][1]);
+		// click on login
+		loginpage.clickOnLoginAgain();
+
+	}
+
+	@Then("I should access to the portal with title as {string}")
+	public void i_should_access_to_the_portal_with_title_as(String expectedText) {
+		// getting the text and storing into a string variable
+		String actualText = driver.findElement(By.linkText("Log out")).getText();
+		// comparing the expected with actual
+		Assert.assertEquals(actualText, expectedText);
+		// quit the driver
+		driver.quit();
+
 	}
 	// Scenario: Valid Credential Test
 
